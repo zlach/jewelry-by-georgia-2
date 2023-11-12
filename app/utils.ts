@@ -71,6 +71,17 @@ export function useUser(): User {
   return maybeUser;
 }
 
+const allowedEmails = [
+  "gakphd1@yahoo.com",
+  "lauren1d17@gmail.com",
+  "zacharysp@gmail.com",
+];
+
 export function validateEmail(email: unknown): email is string {
-  return typeof email === "string" && email.length > 3 && email.includes("@");
+  return (
+    typeof email === "string" &&
+    email.length > 3 &&
+    email.includes("@") &&
+    allowedEmails.includes(email)
+  );
 }

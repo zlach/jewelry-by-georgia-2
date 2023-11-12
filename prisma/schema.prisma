@@ -8,31 +8,63 @@ generator client {
 }
 
 model User {
-  id    String @id @default(cuid())
-  email String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  password Password?
-  notes    Note[]
+  id        String    @id @default(cuid())
+  email     String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  password  Password?
 }
 
 model Password {
-  hash String
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  hash   String
   userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model Note {
-  id    String @id @default(cuid())
-  title String
-  body  String
+model FeatureProduct {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  features    String
+  price       Float
+  order       Int
+  count       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  media       Media[]
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model CategoryProduct {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  price       Float
+  order       Int
+  count       Int
+  categoryId  String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  media       Media[]
+}
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
+model Category {
+  id               String            @id @default(cuid())
+  title            String
+  order            Int
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  categoryProducts CategoryProduct[]
+}
+
+model Media {
+  id                String           @id @default(cuid())
+  url               String
+  primary           Boolean
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  featureProductId  String?
+  categoryProductId String?
+  categoryProduct   CategoryProduct? @relation(fields: [categoryProductId], references: [id], onDelete: Cascade)
+  featureProduct    FeatureProduct?  @relation(fields: [featureProductId], references: [id], onDelete: Cascade)
 }
