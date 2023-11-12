@@ -14,6 +14,12 @@ export const uploadImage = async (
     "_",
   )}`;
 
+  const gcpPrivateKey = `
+-----BEGIN PRIVATE KEY-----
+${process.env.GCP_PRIVATE_KEY?.split(String.raw`\n`).join("\n")}
+-----END PRIVATE KEY-----
+`;
+
   /*
     THIS COMMENTED-OUT SECTION IS USED FOR LOCAL TESTING
 
@@ -27,7 +33,7 @@ export const uploadImage = async (
   const cloudStorage = new Storage({
     credentials: {
       client_email: process.env.GCP_CLIENT_EMAIL,
-      private_key: process.env.GCP_PRIVATE_KEY,
+      private_key: gcpPrivateKey,
     },
     projectId: process.env.GCP_PROJECT_ID,
   });
