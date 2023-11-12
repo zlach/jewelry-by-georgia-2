@@ -3,8 +3,10 @@ import type {
   CategoryProduct as CategoryProductType,
   Media,
 } from "@prisma/client";
-import { CategoryProduct } from "./CategoryProduct";
+
 import Container from "../Container";
+
+import { CategoryProduct } from "./CategoryProduct";
 
 export const Category = ({
   category,
@@ -13,7 +15,7 @@ export const Category = ({
   handleRemoveFromCart,
 }: {
   category: CategoryType & {
-    categoryProducts: Array<CategoryProductType & { media: Media[] }>;
+    categoryProducts: (CategoryProductType & { media: Media[] })[];
   };
   cart: string[];
   handleAddToCart: (id: string) => void;
@@ -30,7 +32,7 @@ export const Category = ({
         {category.categoryProducts?.map(
           (
             categoryProduct: CategoryProductType & { media: Media[] },
-            i: number
+            i: number,
           ) => (
             <CategoryProduct
               key={categoryProduct.id}
@@ -44,7 +46,7 @@ export const Category = ({
                   : ""
               }`}
             />
-          )
+          ),
         )}
       </div>
     </div>

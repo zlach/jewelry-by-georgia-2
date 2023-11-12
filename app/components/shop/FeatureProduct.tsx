@@ -36,15 +36,15 @@ export const FeatureProduct = ({
       <div className="w-72 lg:w-96">
         <h2 className="text-lg font-semibold">{featureProduct.title}</h2>
         <p className="italic">{featureProduct.description}</p>
-        {featureProduct.features && (
+        {featureProduct.features ? (
           <ul className="list-disc py-4 pl-8">
             {JSON.parse(featureProduct.features).map(
               (feature: string, i: number) => (
                 <li key={i}>{feature}</li>
-              )
+              ),
             )}
           </ul>
-        )}
+        ) : null}
         <p>${featureProduct.price}</p>
         <div className="flex justify-between pt-4">
           {!cart || !cart.length || !cart.includes(featureProduct.id) ? (

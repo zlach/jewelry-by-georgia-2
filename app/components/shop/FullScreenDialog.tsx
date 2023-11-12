@@ -1,13 +1,14 @@
+import { Dialog, Transition } from "@headlessui/react";
 import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+
 import Container from "~/components/Container";
 
 export default function FullScreenDialog({
   colorVariant = "white",
   title,
-  afterLeave = () => {},
-  onClose = () => {},
+  afterLeave = () => null,
+  onClose = () => null,
   children,
   open = false,
   centerText = "",
@@ -69,17 +70,17 @@ export default function FullScreenDialog({
                             reverseControls ? "row-reverse" : ""
                           }`}
                         >
-                          {!reverseControls && (
+                          {!reverseControls ? (
                             <Dialog.Title className="flex-1 text-base font-semibold leading-6">
                               {title}
                             </Dialog.Title>
-                          )}
-                          {!reverseControls && !extraControl && centerText && (
+                          ) : null}
+                          {!reverseControls && !extraControl && centerText ? (
                             <div className="flex flex-1 justify-center">
                               {centerText}
                             </div>
-                          )}
-                          {reverseControls && extraControl && (
+                          ) : null}
+                          {reverseControls && extraControl ? (
                             <div
                               className={`flex flex-1  ${
                                 reverseControls
@@ -89,7 +90,7 @@ export default function FullScreenDialog({
                             >
                               {extraControl}
                             </div>
-                          )}
+                          ) : null}
                           <div
                             className={`flex flex-1  ${
                               reverseControls
@@ -124,7 +125,7 @@ export default function FullScreenDialog({
                                 <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
                               </svg>
                             </button>
-                            {reverseControls && (
+                            {reverseControls ? (
                               <Dialog.Title
                                 className={`flex-1  font-semibold leading-6 ${
                                   reverseControls
@@ -134,7 +135,7 @@ export default function FullScreenDialog({
                               >
                                 {title}
                               </Dialog.Title>
-                            )}
+                            ) : null}
                           </div>
                         </div>
                       </Container>
@@ -142,7 +143,7 @@ export default function FullScreenDialog({
                     <div className="relative my-2 flex-1 overflow-y-scroll  px-3">
                       {children}
                     </div>
-                    {action && <div className="p-3">{action}</div>}
+                    {action ? <div className="p-3">{action}</div> : null}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

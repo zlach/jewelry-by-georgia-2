@@ -6,10 +6,10 @@ export const CartItems = ({
   items,
   paymentIntentId,
 }: {
-  items: Array<
+  items: (
     | (FeatureProduct & { media: Media[] })
     | (CategoryProduct & { media: Media[] })
-  >;
+  )[];
   paymentIntentId: string;
 }) => {
   const navigate = useNavigate();
@@ -20,12 +20,14 @@ export const CartItems = ({
         (
           item:
             | (FeatureProduct & { media: Media[] })
-            | (CategoryProduct & { media: Media[] })
-        ) => item.id
+            | (CategoryProduct & { media: Media[] }),
+        ) => item.id,
       );
 
       localStorage.setItem("cart", JSON.stringify(cart));
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }, [items]);
 
   const handleRemove = async (id: string) => {
@@ -72,7 +74,7 @@ export const CartItems = ({
           item:
             | (FeatureProduct & { media: Media[] })
             | (CategoryProduct & { media: Media[] }),
-          i: number
+          i: number,
         ) => (
           <div key={i} className="inline-flex items-center gap-4 p-4">
             <img
@@ -92,7 +94,7 @@ export const CartItems = ({
               </button>
             </div>
           </div>
-        )
+        ),
       )}
     </>
   );

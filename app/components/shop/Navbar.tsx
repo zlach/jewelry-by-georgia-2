@@ -1,5 +1,9 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useLocation, useNavigate } from "@remix-run/react";
+
 import Container from "../Container";
+
 import SuccessBanner from "./SuccessBanner";
 
 export default function Navbar({
@@ -44,7 +48,7 @@ export default function Navbar({
             Jewelry by Georgia
           </h1>
           <div className="flex justify-end">
-            {pathname !== "/cart" && cart && (
+            {pathname !== "/cart" && cart ? (
               <button
                 type="button"
                 className="flex items-center gap-2 p-2 text-lg"
@@ -62,11 +66,11 @@ export default function Navbar({
                 </svg>
                 <span>{cart.length}</span>
               </button>
-            )}
+            ) : null}
           </div>
         </div>
       </Container>
-      {success && <SuccessBanner />}
+      {success ? <SuccessBanner /> : null}
     </div>
   );
 }

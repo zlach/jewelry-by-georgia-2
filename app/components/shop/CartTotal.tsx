@@ -3,10 +3,10 @@ import type { CategoryProduct, FeatureProduct, Media } from "@prisma/client";
 export const CartTotal = ({
   items,
 }: {
-  items: Array<
+  items: (
     | (FeatureProduct & { media: Media[] })
     | (CategoryProduct & { media: Media[] })
-  >;
+  )[];
 }) => {
   return (
     <div className="flex justify-between">
@@ -19,9 +19,9 @@ export const CartTotal = ({
               accumulator: number,
               currentValue:
                 | (FeatureProduct & { media: Media[] })
-                | (CategoryProduct & { media: Media[] })
+                | (CategoryProduct & { media: Media[] }),
             ) => accumulator + currentValue.price,
-            0
+            0,
           )}
         </h2>
       </mark>
