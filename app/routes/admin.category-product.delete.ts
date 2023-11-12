@@ -2,6 +2,7 @@ import { type LoaderFunctionArgs, json } from "@remix-run/node";
 
 import { prisma } from "~/db.server";
 import { requireUserId } from "~/session.server";
+import { deleteImage } from "~/upload.server";
 
 export const action = async ({ request }: LoaderFunctionArgs) => {
   try {
@@ -14,6 +15,9 @@ export const action = async ({ request }: LoaderFunctionArgs) => {
 
     const categoryProduct = await prisma.categoryProduct.findUnique({
       where: { id },
+      include: {
+        media: true,
+      },
     });
 
     if (categoryProduct === null)
@@ -24,6 +28,16 @@ export const action = async ({ request }: LoaderFunctionArgs) => {
         id,
       },
     });
+
+    for (const media of categoryProduct.media) {
+      const filename = media.url.split("/").pop() || "";
+
+      try {
+        await deleteImage(filename);
+      } catch (error) {
+        console.error(`error deleting ${filename}`);
+      }
+    }
 
     const categoryProducts = await prisma.categoryProduct.findMany({
       where: { categoryId: categoryProduct.categoryId },
