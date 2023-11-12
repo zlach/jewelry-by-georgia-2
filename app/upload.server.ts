@@ -8,7 +8,7 @@ export const uploadImage = async (
 ): Promise<string> => {
   const bucketName = process.env.BUCKET_NAME || "";
 
-  const formattedFilename = `${timestamp}/${filename.replace(
+  const formattedFilename = `${timestamp}_${filename.replace(
     // eslint-disable-next-line no-useless-escape
     /[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/\s]/g,
     "_",
