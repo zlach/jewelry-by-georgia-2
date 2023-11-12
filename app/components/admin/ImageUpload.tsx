@@ -17,12 +17,12 @@ const filesSchema = z
   .array()
   .refine(
     (files) => files?.length <= maxFiles,
-    `Max ${maxFiles} files allowed.`
+    `Max ${maxFiles} files allowed.`,
   )
   .refine((files) => {
     const totalSize = files.reduce(
       (acc: number, file: File) => acc + file.size,
-      0
+      0,
     );
 
     return totalSize <= maxFiles * maxFileSize;
@@ -30,7 +30,7 @@ const filesSchema = z
   .refine(
     (files) =>
       files.every((file: File) => acceptedFileTypes.includes(file.type)),
-    ".jpg, .jpeg, .png, .gif, and .webp files are accepted."
+    ".jpg, .jpeg, .png, .gif, and .webp files are accepted.",
   );
 
 export default function ImageUpload({
@@ -80,7 +80,7 @@ export default function ImageUpload({
 
     if (e.dataTransfer?.files && e.dataTransfer?.files?.[0]) {
       const arr = [...e.dataTransfer.files].filter((file) =>
-        acceptedFileTypes.includes(file.type)
+        acceptedFileTypes.includes(file.type),
       );
 
       const validated = filesSchema.safeParse(arr);
@@ -100,7 +100,7 @@ export default function ImageUpload({
 
     if (e.currentTarget?.files && e.currentTarget?.files?.[0]) {
       const arr = [...e.currentTarget.files].filter((file) =>
-        acceptedFileTypes.includes(file.type)
+        acceptedFileTypes.includes(file.type),
       );
 
       const validated = filesSchema.safeParse(arr);
@@ -126,7 +126,7 @@ export default function ImageUpload({
           dragActive ? "border-blue-900/25" : "border-gray-900/25"
         } ${orientation === "vertical" ? "h-40" : "h-24"}`}
       >
-        {files.length < maxFiles && (
+        {files.length < maxFiles ? (
           <div
             className={`flex h-full w-full items-center justify-center gap-x-2 ${
               orientation === "vertical" ? "flex-col" : "flex-row"
@@ -172,8 +172,8 @@ export default function ImageUpload({
               </p>
             </div>
           </div>
-        )}
-        {files.length >= maxFiles && (
+        ) : null}
+        {files.length >= maxFiles ? (
           <div className="flex h-full w-full flex-col items-center justify-center gap-x-2">
             <div className="text-xs leading-5 text-gray-600">
               Thank you for uploading your photos!
@@ -182,8 +182,8 @@ export default function ImageUpload({
               Maximum of {maxFiles}
             </div>
           </div>
-        )}
-        {dragActive && (
+        ) : null}
+        {dragActive ? (
           <div
             className="absolute bottom-0 left-0 right-0 top-0 h-full w-full rounded-lg"
             id="drag-file-element"
@@ -192,14 +192,16 @@ export default function ImageUpload({
             onDragOver={handleDrag}
             onDrop={handleDrop}
           />
-        )}
+        ) : null}
       </div>
 
       {/* Error message */}
-      {errorMsg && <p className="mt-2 text-xs text-red-500">{errorMsg}</p>}
+      {errorMsg ? (
+        <p className="mt-2 text-xs text-red-500">{errorMsg}</p>
+      ) : null}
 
       {/* Image Thumbnails */}
-      {includeThumbnails && (
+      {includeThumbnails ? (
         <div className="mt-4 grid grid-cols-12 gap-4">
           {files.map((file, index) => (
             <div key={index} className="col-span-4">
@@ -219,7 +221,7 @@ export default function ImageUpload({
             </div>
           ))}
         </div>
-      )}
+      ) : null}
     </>
   );
 }

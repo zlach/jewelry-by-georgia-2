@@ -2,8 +2,9 @@ import type {
   Media,
   FeatureProduct as FeatureProductType,
 } from "@prisma/client";
-import Container from "../Container";
 import { useFetcher } from "@remix-run/react";
+
+import Container from "../Container";
 
 export const FeatureProduct = ({
   featureProduct,

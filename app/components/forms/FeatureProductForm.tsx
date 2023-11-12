@@ -1,6 +1,7 @@
+import { Form, useFetcher } from "@remix-run/react";
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
-import { Form, useFetcher } from "@remix-run/react";
+
 import ImageUpload from "~/components/admin/ImageUpload";
 
 export default function FeatureProductForm({
@@ -8,7 +9,7 @@ export default function FeatureProductForm({
 }: {
   handleClose: () => void;
 }) {
-  const fetcher = useFetcher();
+  const fetcher = useFetcher<{ success: boolean }>();
   const [files, setFiles] = useState<File[]>([]);
   const ref = useRef<HTMLFormElement>(null);
 
@@ -20,7 +21,7 @@ export default function FeatureProductForm({
         handleClose();
       }
     },
-    [fetcher.state, fetcher.data, handleClose]
+    [fetcher.state, fetcher.data, handleClose],
   );
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

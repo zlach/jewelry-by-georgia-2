@@ -3,19 +3,21 @@ import type {
   CategoryProduct as CategoryProductType,
   Media,
 } from "@prisma/client";
-import Container from "../Container";
-import { CategoryProduct } from "./CategoryProduct";
-import CategoryProductForm from "../forms/CategoryProductForm";
 import { useFetcher } from "@remix-run/react";
 import { useState } from "react";
+
+import Container from "../Container";
 import CategoryForm from "../forms/CategoryForm";
+import CategoryProductForm from "../forms/CategoryProductForm";
+
+import { CategoryProduct } from "./CategoryProduct";
 
 export const Category = ({
   category,
   totalCount,
 }: {
   category: CategoryType & {
-    categoryProducts: Array<CategoryProductType & { media: Media[] }>;
+    categoryProducts: (CategoryProductType & { media: Media[] })[];
   };
   totalCount: number;
 }) => {
@@ -66,7 +68,7 @@ export const Category = ({
           >
             Edit Category Name
           </button>
-          {category.categoryProducts?.length === 0 && (
+          {category.categoryProducts?.length === 0 ? (
             <deleteFetcher.Form method="delete" action="/admin/category/delete">
               <input type="hidden" name="id" value={category.id} />
               <button
@@ -76,14 +78,14 @@ export const Category = ({
                 Remove
               </button>
             </deleteFetcher.Form>
-          )}
+          ) : null}
         </div>
-        {categoryForm && (
+        {categoryForm ? (
           <CategoryForm
             handleClose={() => setCategoryForm(false)}
             categoryId={category.id}
           />
-        )}
+        ) : null}
       </Container>
       <div className="hide-scrollbar flex snap-x snap-mandatory scroll-ps-6 gap-x-6 overflow-x-scroll px-3 py-6 md:px-20 xl:px-[calc(50vw-640px)]">
         <CategoryProductForm
@@ -91,17 +93,14 @@ export const Category = ({
           className="min-h-[520px] min-w-[320px] max-w-[320px] snap-start scroll-ml-3 md:scroll-ml-20 xl:scroll-ml-[calc(50vw-640px)]"
         />
         {category?.categoryProducts.map(
-          (
-            categoryProduct: CategoryProductType & { media: Media[] },
-            i: number
-          ) => (
+          (categoryProduct: CategoryProductType & { media: Media[] }) => (
             <CategoryProduct
               key={categoryProduct?.id?.toString()}
               categoryProduct={categoryProduct}
               className="min-h-[520px] min-w-[320px] max-w-[320px] snap-start"
               totalCount={category.categoryProducts.length}
             />
-          )
+          ),
         )}
       </div>
     </div>

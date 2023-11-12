@@ -8,7 +8,7 @@ export default function CategoryForm({
   handleClose: () => void;
   categoryId?: string;
 }) {
-  const fetcher = useFetcher();
+  const fetcher = useFetcher<{ success: boolean }>();
   const ref = useRef<HTMLFormElement>(null);
 
   useEffect(
@@ -18,7 +18,7 @@ export default function CategoryForm({
         handleClose();
       }
     },
-    [fetcher.state, fetcher.data, handleClose]
+    [fetcher.state, fetcher.data, handleClose],
   );
 
   return (
