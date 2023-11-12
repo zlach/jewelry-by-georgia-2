@@ -27,9 +27,7 @@ export const uploadImage = async (
   const cloudStorage = new Storage({
     credentials: {
       client_email: process.env.GCP_CLIENT_EMAIL,
-      private_key: process.env.GCP_PRIVATE_KEY?.split(String.raw`\n`).join(
-        "\n",
-      ),
+      private_key: process.env.GCP_PRIVATE_KEY?.replace(/\\n/g, "\n"),
     },
     projectId: process.env.GCP_PROJECT_ID,
   });
