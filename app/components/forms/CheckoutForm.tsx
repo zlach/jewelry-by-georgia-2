@@ -31,7 +31,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000",
+        return_url: "https://jewelry-by-georgia-2-28f9.fly.dev",
       },
     });
 
