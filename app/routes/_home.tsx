@@ -52,6 +52,12 @@ export default function Index() {
 
   useEffect(() => {
     try {
+      if (success) {
+        localStorage.removeItem("cart");
+        setCart([]);
+        return;
+      }
+
       const c = localStorage.getItem("cart");
 
       if (!c) {
