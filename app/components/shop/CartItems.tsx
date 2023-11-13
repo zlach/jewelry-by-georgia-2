@@ -46,7 +46,11 @@ export const CartItems = ({
         .map((id: string) => `id=${id}`)
         .join("&");
 
-      localStorage.setItem("cart", JSON.stringify(parsedCart));
+      if (!filteredCart.length) {
+        localStorage.removeItem("cart");
+      } else {
+        localStorage.setItem("cart", JSON.stringify(parsedCart));
+      }
 
       navigate(`/cart?paymentIntentId=${paymentIntentId}&${queryString}`);
     } catch (error) {

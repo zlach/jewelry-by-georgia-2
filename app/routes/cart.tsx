@@ -1,4 +1,4 @@
-import { json, type LoaderFunctionArgs } from "@remix-run/node";
+import { json, redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
@@ -31,7 +31,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     const data = [...featureProducts, ...categoryProducts];
 
     if (!data.length) {
-      return json({ data: [] }, { status: 404 });
+      return redirect("/");
     }
 
     let paymentIntent;
@@ -59,7 +59,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     }
 
     if (!paymentIntent) {
-      return json({ data: [] }, { status: 404 });
+      return redirect("/");
     }
 
     return json(
