@@ -15,7 +15,7 @@ import { FeatureProduct } from "~/components/shop/FeatureProduct";
 import Navbar from "~/components/shop/Navbar";
 import { prisma } from "~/db.server";
 
-export const meta: MetaFunction = () => [{ title: "Gigi's Jeweleries" }];
+export const meta: MetaFunction = () => [{ title: "Jewelry by Georgia" }];
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
